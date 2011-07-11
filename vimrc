@@ -15,7 +15,6 @@ Bundle "tpope/vim-repeat"
 Bundle "scrooloose/nerdtree"
 Bundle "tpope/vim-markdown"
 Bundle "tpope/vim-endwise"
-Bundle "Raimondi/delimitMate"
 Bundle "tomtom/tcomment_vim"
 Bundle "Shougo/neocomplcache"
 Bundle "mileszs/ack.vim"
@@ -28,6 +27,7 @@ Bundle "altercation/vim-colors-solarized"
 Bundle "xolox/vim-session"
 Bundle "caio/scala-vim-support"
 Bundle "chrismetcalf/vim-yankring"
+Bundle "http://github.com/rstacruz/sparkup.git", {'rtp': 'vim/'}
 
 
 filetype plugin indent on
@@ -45,7 +45,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
-set list listchars=tab:\ \ ,trail:·
+set list listchars=tab:>.,trail:·
 
 " Searching
 set hlsearch
@@ -177,17 +177,17 @@ set gcr=n:blinkon0
 set nolist
 
 
-nnoremap <Leader>w <C-w>v<C-w>1
+nnoremap <Leader>q :q<CR>
 nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
+nnoremap <C-j> 6j
+nnoremap <C-k> 6k
 nnoremap <C-l> <C-w>l
-nnoremap <silent> <leader>l :call Toggle_RNU()<CR>
+noremap <silent> <leader>l :call Toggle_RNU()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <tab> %
 vnoremap <tab> %
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC.local<CR>
-nnoremap <leader>w <C-w><C-v><C-l>
+nnoremap <leader>v <C-w><C-v><C-w>l
 inoremap jj <ESC>
 
 
@@ -199,4 +199,56 @@ function! Toggle_RNU()
   endif
 endfunction
 
+" Easymotion
+" let g:EasyMotion_leader_key = '<Leader>a'
 
+" dduke
+nnoremap <Leader>s :w<CR>
+set history=1000
+set scrolloff=3
+set hidden
+map Y y$
+map j gj
+map k gk
+" CR in insert mode adds a line
+nnoremap <CR> mOo<ESC>`O
+nnoremap ' `
+nnoremap ` '
+nnoremap <Leader>d :bd<CR>
+nnoremap <silent> <Leader>. :ls<CR><CR>:b
+nnoremap H :bp<CR>
+nnoremap L :bn<CR>
+nnoremap <Leader>cd :lcd %:p:h<CR>
+inoremap <S-TAB> : <C-v><TAB>
+
+"Command T
+nnoremap <Leader>c :CommandT<CR>
+
+vnoremap < <gv
+vnoremap > >gv
+
+nmap <leader>se :setlocal spell! spelllang=en<CR>
+
+set foldlevelstart=0
+set foldmethod=marker
+
+function! MyFoldText()
+      let line = getline(v:foldstart)
+
+      let nucolwidth = &fdc + &number * &numberwidth
+      let windowwidth = winwidth(0) - nucolwidth - 3
+      let foldedlinecount = v:foldend - v:foldstart
+
+      " expand tabs into spaces
+      let onetab = strpart('          ', 0, &tabstop)
+      let line = substitute(line, '\t', onetab, 'g')
+
+      let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+      let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 4
+      return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction
+set foldtext=MyFoldText()
+set clipboard+=unnamed
+set tags=./tags;$HOME
+map <C-/> <plug>NERDCommenterToggle<CR>
+imap <C-/> <Esc><plug>NERDCommenterToggle<CR>i
