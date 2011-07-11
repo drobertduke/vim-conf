@@ -1,4 +1,36 @@
 set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup' 
+
+Bundle "tpope/vim-surround"
+Bundle "tpope/vim-repeat"
+Bundle "scrooloose/nerdtree"
+Bundle "tpope/vim-markdown"
+Bundle "tpope/vim-endwise"
+Bundle "Raimondi/delimitMate"
+Bundle "tomtom/tcomment_vim"
+Bundle "Shougo/neocomplcache"
+Bundle "mileszs/ack.vim"
+Bundle "scrooloose/syntastic"
+Bundle "nathanaelkane/vim-indent-guides"
+Bundle "godlygeek/tabular"
+Bundle "chrisbra/histwin.vim"
+Bundle "gregsexton/gitv"
+Bundle "altercation/vim-colors-solarized"
+Bundle "xolox/vim-session"
+Bundle "caio/scala-vim-support"
+Bundle "chrismetcalf/vim-yankring"
+
+
+filetype plugin indent on
 
 set number
 set ruler
@@ -84,9 +116,6 @@ au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-" load the plugin and indent settings for the detected filetype
-filetype plugin indent on
-
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -128,8 +157,8 @@ set modelines=10
 color desert
 
 " Directories for swp files
-set backupdir=~/.vim/backup
-set directory=~/.vim/backup
+set backupdir=~/temp/vim/backup
+set directory=~/temp/vim/swp
 
 " Turn off jslint errors by default
 let g:JSLintHighlightErrorLine = 0
@@ -143,11 +172,7 @@ runtime! macros/matchit.vim
 " Show (partial) command in the status line
 set showcmd
 
-
-" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
+" from old vimrc.local
 set gcr=n:blinkon0
 set nolist
 
@@ -173,4 +198,5 @@ function! Toggle_RNU()
     execute ':set rnu'
   endif
 endfunction
+
 
